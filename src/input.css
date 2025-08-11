@@ -1,0 +1,16 @@
+@import 'tailwindcss';
+
+button {
+  padding: 0.5rem;
+  border: 1px solid;
+  position: relative;
+}
+
+button:disabled::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-color: rgba(128, 128, 128, 0.5); /* semi-transparent gray */
+  z-index: 1;
+  pointer-events: none;
+}
