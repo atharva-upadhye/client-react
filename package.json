@@ -9,7 +9,8 @@
     "lint": "eslint .",
     "test": "vitest",
     "test:e2e": "concurrently -k 'pnpm dev' 'pnpm exec wait-on http://localhost:3000 && pnpm exec playwright test'",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "prepare": "husky"
   },
   "dependencies": {
     "react": "^19.1.1",
@@ -31,6 +32,7 @@
     "eslint-plugin-react-hooks": "^5.2.0",
     "eslint-plugin-react-refresh": "^0.4.20",
     "globals": "^16.3.0",
+    "husky": "^9.1.7",
     "jsdom": "^26.1.0",
     "prettier": "^3.6.2",
     "prettier-plugin-tailwindcss": "^0.6.14",
