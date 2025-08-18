@@ -1,5 +1,5 @@
-import './App.css'
-import Timer from './components/Timer/Timer'
+import "./App.css";
+import Timer from "./components/Timer/Timer";
 
 function App() {
   return (
@@ -7,7 +7,7 @@ function App() {
       <div className="text-2xl">timer app</div>
       <Timer />
     </div>
-  )
+  );
 }
 
-export default App
+export default App;
