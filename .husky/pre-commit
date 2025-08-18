@@ -1,1 +1,4 @@
-pnpm lint
+#!/bin/sh
+
+pnpm exec lint-staged
+pnpm test
