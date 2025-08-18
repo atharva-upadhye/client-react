@@ -10,7 +10,7 @@
     "test": "vitest",
     "test:e2e": "concurrently -k 'pnpm dev' 'pnpm exec wait-on http://localhost:3000 && pnpm exec playwright test'",
     "preview": "vite preview",
-    "prepare": "node .husky/install.mjs"
+    "prepare": "node .husky/install.js"
   },
   "dependencies": {
     "react": "^19.1.1",
