@@ -4,10 +4,20 @@ import reactHooks from 'eslint-plugin-react-hooks'
 import reactRefresh from 'eslint-plugin-react-refresh'
 import tseslint from 'typescript-eslint'
 import prettierPlugin from 'eslint-plugin-prettier'
+import filenameExportPlugin from 'eslint-plugin-filename-export'
 import { globalIgnores } from 'eslint/config'
 
 export default tseslint.config([
   globalIgnores(['dist']),
+  {
+      files: ["**/*.tsx"],
+    plugins: {
+      filenameExport: filenameExportPlugin,
+    },
+    rules: {
+      "filenameExport/match-default-export": "error",
+    },
+  },
   {
     files: ['**/*.{ts,tsx}'],
     plugins: {
