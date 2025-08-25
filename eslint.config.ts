@@ -4,6 +4,7 @@ import reactHooks from "eslint-plugin-react-hooks";
 import reactRefresh from "eslint-plugin-react-refresh";
 import tseslint from "typescript-eslint";
 import _prettierPlugin from "eslint-plugin-prettier";
+import prettierConfig from "eslint-config-prettier/flat";
 import _filenameExportPlugin from "eslint-plugin-filename-export";
 import { globalIgnores } from "eslint/config";
 
@@ -48,7 +49,7 @@ export default tseslint.config([
     },
   },
   {
-    files: ["**/*.{ts,tsx}"],
+    files: ["**/*.{ts,tsx}", "./*.js"],
     plugins: {
       [prettierPlugin.name]: prettierPlugin.plugin,
     },
@@ -71,4 +72,5 @@ export default tseslint.config([
       globals: globals.browser,
     },
   },
+  prettierConfig,
 ]);
