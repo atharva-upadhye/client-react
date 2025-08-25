@@ -108,7 +108,7 @@ describe.skip("Timer component", () => {
 
   test("cleans up interval on unmount", () => {
     const { unmount } = render(<Timer />);
-    const clearIntervalSpy = vi.spyOn(global, "clearInterval");
+    const clearIntervalSpy = vi.spyOn(globalThis, "clearInterval");
 
     userEvent.click(screen.getByRole("button", { name: /start/i }));
 
