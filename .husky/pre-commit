@@ -1,4 +1,5 @@
 #!/bin/sh
 
 pnpm exec lint-staged
-pnpm test
+pnpm exec tsc -p tsconfig.app.json
+pnpm exec vite build
