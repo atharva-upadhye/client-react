@@ -28,7 +28,7 @@ function definePlugin<T extends ESLintPlugin, Name extends string>(
   return {
     name,
     plugin,
-    rule: (ruleName) => `${name}/${ruleName}` as const,
+    rule: ruleName => `${name}/${ruleName}` as const,
   };
 }
 
@@ -69,7 +69,7 @@ export default tseslint.config([
       globals: globals.browser,
     },
     rules: {
-      // "sort-imports": "warn",
+      "sort-imports": "warn",
     },
   },
   {

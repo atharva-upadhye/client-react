@@ -1,4 +1,4 @@
-import { useState, useRef, type MouseEventHandler } from "react";
+import { type MouseEventHandler, useRef, useState } from "react";
 
 function formatTime(ms: number) {
   const hours = String(Math.floor(ms / 3600000)).padStart(2, "0");
@@ -24,7 +24,7 @@ const TimerIncorrect = () => {
       setTime(0);
     } else {
       intervalRef.current = setInterval(
-        () => setTime((p) => (p === null ? 0 : p) + 1),
+        () => setTime(p => (p === null ? 0 : p) + 1),
         1,
       );
       setIsRunning(true);
@@ -41,7 +41,7 @@ const TimerIncorrect = () => {
     } else {
       if (intervalRef.current) throw Error("impossible condition reached 2");
       intervalRef.current = setInterval(
-        () => setTime((p) => (p === null ? 0 : p) + 1),
+        () => setTime(p => (p === null ? 0 : p) + 1),
         1,
       );
       setIsRunning(true);

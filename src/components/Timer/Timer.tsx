@@ -1,4 +1,4 @@
-import { useState, useRef, type MouseEventHandler, useEffect } from "react";
+import { type MouseEventHandler, useEffect, useRef, useState } from "react";
 
 function formatTime(ms: number) {
   const hours = String(Math.floor(ms / 3600000)).padStart(2, "0");

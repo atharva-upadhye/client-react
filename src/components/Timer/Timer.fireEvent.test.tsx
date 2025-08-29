@@ -1,6 +1,6 @@
-import { render, screen, fireEvent, act } from "@testing-library/react";
+import { act, fireEvent, render, screen } from "@testing-library/react";
+import { afterEach, beforeEach, describe, expect, test, vi } from "vitest";
 import Timer from "./Timer";
-import { vi, describe, beforeEach, afterEach, test, expect } from "vitest";
 
 describe("Timer component", () => {
   beforeEach(() => {
