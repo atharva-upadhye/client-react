@@ -1,5 +1,5 @@
 import { afterEach, beforeEach, describe, expect, test, vi } from "vitest";
-import { render, screen, act } from "@testing-library/react";
+import { act, render, screen } from "@testing-library/react";
 import Timer from "./Timer";
 import userEvent from "@testing-library/user-event";
 
@@ -51,7 +51,7 @@ describe.skip("Timer component", () => {
     await user.click(startButton);
 
     // Wrap timer advancement in act to flush React effects
-    await act(async () => {
+    act(() => {
       vi.advanceTimersByTime(1000);
     });
 
@@ -106,11 +106,11 @@ describe.skip("Timer component", () => {
     expect(screen.getByRole("button", { name: /start/i })).toBeInTheDocument();
   });
 
-  test("cleans up interval on unmount", () => {
+  test("cleans up interval on unmount", async () => {
     const { unmount } = render(<Timer />);
     const clearIntervalSpy = vi.spyOn(globalThis, "clearInterval");
 
-    userEvent.click(screen.getByRole("button", { name: /start/i }));
+    await userEvent.click(screen.getByRole("button", { name: /start/i }));
 
     unmount();
 
