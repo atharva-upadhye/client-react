@@ -7,4 +7,9 @@ export default defineConfig({
   server: {
     port: 3000,
   },
+  build: {
+    rollupOptions: {
+      treeshake: "recommended", // TODO: verify if this is working
+    },
+  },
 });

@@ -2,7 +2,7 @@ import "./App.css";
 import { Suspense, lazy, useState } from "react";
 import { ErrorBoundary } from "react-error-boundary";
 import { ErrorFallback } from "./components/ErrorFallback/ErrorFallback";
-import Timer from "./components/Timer/Timer";
+import { Timer } from "./components";
 
 const LazyComponent = lazy(() =>
   import("./components/LazyComponent/LazyComponent").then(e => ({
@@ -17,7 +17,7 @@ function ComponentThatMayThrow({ userId }: { userId: string }) {
   return <div>Valid user: {userId}</div>;
 }
 
-function App() {
+export function App() {
   const [userId, setUserId] = useState("1");
 
   return (
@@ -42,5 +42,3 @@ function App() {
     </ErrorBoundary>
   );
 }
-
-export default App;

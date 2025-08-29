@@ -9,7 +9,7 @@ function formatTime(ms: number) {
   return `${hours}:${minutes}:${seconds}.${milliseconds}`;
 }
 
-const TimerIncorrect = () => {
+export const TimerIncorrect = () => {
   const [time, setTime] = useState<null | number>(null);
   const [isStarted, setIsStarted] = useState(false);
   const [isRunning, setIsRunning] = useState(false);
@@ -75,5 +75,3 @@ const TimerIncorrect = () => {
     </div>
   );
 };
-
-export default TimerIncorrect;
