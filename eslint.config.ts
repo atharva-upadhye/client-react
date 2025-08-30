@@ -71,7 +71,13 @@ export default tseslint.config([
   },
   reactRefresh.configs.vite,
   reactHooks.configs["recommended-latest"],
-  vitest.configs.all,
+  {
+    files: ["**/__tests__/**/*.[jt]s?(x)", "**/?(*.)+(spec|test).[jt]s?(x)"],
+    plugins: { vitest },
+    rules: {
+      ...vitest.configs.all.rules,
+    },
+  },
   tseslint.configs.recommended,
   tseslint.configs.stylistic,
   tseslint.configs.strictTypeChecked,
