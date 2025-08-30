@@ -1,8 +1,8 @@
-import _filenameExportPlugin from "eslint-plugin-filename-export";
-import _prettierPlugin from "eslint-plugin-prettier";
-import { globalIgnores } from "eslint/config";
+import filenameExport from "eslint-plugin-filename-export";
+import gitignore from "eslint-config-flat-gitignore";
 import globals from "globals";
 import js from "@eslint/js";
+import prettier from "eslint-plugin-prettier";
 import react from "eslint-plugin-react";
 import reactHooks from "eslint-plugin-react-hooks";
 import reactRefresh from "eslint-plugin-react-refresh";
@@ -21,29 +21,18 @@ interface PluginWithName<T extends ESLintPlugin, Name extends string> {
   ) => `${Name}/${RuleName}`;
 }
 
-function definePlugin<T extends ESLintPlugin, Name extends string>(
-  name: Name,
-  plugin: T,
-): PluginWithName<T, Name> {
-  return {
+const definePlugin = <T extends ESLintPlugin, Name extends string>(
+    name: Name,
+    plugin: T,
+  ): PluginWithName<T, Name> => ({
     name,
     plugin,
     rule: ruleName => `${name}/${ruleName}` as const,
-  };
-}
-
-const filenameExportPlugin = definePlugin(
-  "filename-export",
-  _filenameExportPlugin,
-);
-const prettierPlugin = definePlugin("prettier", _prettierPlugin);
+  }),
+  filenameExportPlugin = definePlugin("filename-export", filenameExport);
 
 export default tseslint.config([
-  globalIgnores(["dist"]),
-  // tseslint.configs.strictTypeChecked,
-  // tseslint.configs.stylisticTypeChecked,
-  tseslint.configs.recommended,
-  tseslint.configs.stylistic,
+  gitignore(),
   {
     languageOptions: {
       parser: tseslint.parser,
@@ -56,20 +45,13 @@ export default tseslint.config([
     },
   },
   {
-    plugins: {
-      react,
-      js,
-      reactRefresh,
-      reactHooks,
-      vitest,
-    },
     languageOptions: {
       ecmaVersion: 2020,
-      sourceType: "module",
       globals: globals.browser,
+      sourceType: "module",
     },
-    rules: {
-      "sort-imports": "warn",
+    plugins: {
+      react,
     },
   },
   {
@@ -81,13 +63,26 @@ export default tseslint.config([
       [filenameExportPlugin.rule("match-default-export")]: "error",
     },
   },
+  js.configs.all,
+  {
+    rules: {
+      "capitalized-comments": "off",
+    },
+  },
+  reactRefresh.configs.vite,
+  reactHooks.configs["recommended-latest"],
+  vitest.configs.all,
+  tseslint.configs.recommended,
+  tseslint.configs.stylistic,
+  tseslint.configs.strictTypeChecked,
+  tseslint.configs.stylisticTypeChecked,
   {
     plugins: {
-      [prettierPlugin.name]: prettierPlugin.plugin,
+      prettier,
     },
     rules: {
       // Apply Prettier as an ESLint rule
-      [`${prettierPlugin.name}/prettier`]: "warn",
+      "prettier/prettier": "warn",
     },
   },
 ]);
