@@ -1,0 +1,6 @@
+#!/bin/sh
+
+pnpm exec cspell $(git diff --cached --name-only)
+pnpm exec lint-staged
+pnpm exec tsc -p tsconfig.app.json
+pnpm exec vite build
