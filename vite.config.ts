@@ -1,9 +1,10 @@
 import checker from "vite-plugin-checker";
 import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react";
+
 // https://vite.dev/config/
 export default defineConfig({
-  base: "client-react",
+  base: "/client-react",
   build: {
     rollupOptions: {
       // eslint-disable-next-line no-warning-comments
@@ -13,7 +14,6 @@ export default defineConfig({
   },
   plugins: [
     react(),
-
     checker({
       typescript: {
         tsconfigPath: "./tsconfig.app.json",
