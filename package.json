@@ -14,10 +14,14 @@
     "prepare": "node .husky/install.js"
   },
   "dependencies": {
+    "@tanstack/react-query": "^5.87.4",
+    "@tanstack/react-query-devtools": "^5.87.4",
     "react": "^19.1.1",
     "react-dom": "^19.1.1",
     "react-error-boundary": "^6.0.0",
-    "vite-tsconfig-paths": "^5.1.4"
+    "react-hot-toast": "^2.6.0",
+    "vite-tsconfig-paths": "^5.1.4",
+    "zod": "^4.1.8"
   },
   "devDependencies": {
     "@eslint/js": "^9.32.0",
