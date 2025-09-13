@@ -67,6 +67,7 @@ export default tseslint.config([
   {
     rules: {
       "capitalized-comments": "off",
+      "one-var": "off",
     },
   },
   reactRefresh.configs.vite,

@@ -1,31 +1,33 @@
 import "./App.css";
+import { ErrorFallback, Timer } from "@/components";
 import { Suspense, lazy, useState } from "react";
 import { ErrorBoundary } from "react-error-boundary";
-import { ErrorFallback } from "./components/ErrorFallback/ErrorFallback";
-import { Timer } from "./components";
 
 const LazyComponent = lazy(() =>
-  import("./components/LazyComponent/LazyComponent").then(e => ({
-    default: e.LazyComponent,
+  import("@/components/LazyComponent/LazyComponent").then(exp => ({
+    default: exp.LazyComponent,
   })),
 );
 
-function ComponentThatMayThrow({ userId }: { userId: string }) {
+const ComponentThatMayThrow = ({ userId }: { userId: string }) => {
   if (userId === "0") {
     throw new Error("Invalid user!");
   }
   return <div>Valid user: {userId}</div>;
-}
+};
 
-export function App() {
+export const App = () => {
   const [userId, setUserId] = useState("1");
 
   return (
     <ErrorBoundary
       FallbackComponent={ErrorFallback}
-      onReset={() => setUserId("1")} // Reset logic
+      onReset={() => {
+        setUserId("1");
+      }}
       onError={(error, info) => {
         // Send to monitoring service (e.g., Sentry)
+        // eslint-disable-next-line no-console
         console.error("Logged error:", error, info);
       }}
     >
@@ -41,4 +43,4 @@ export function App() {
       </div>
     </ErrorBoundary>
   );
-}
+};

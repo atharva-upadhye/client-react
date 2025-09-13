@@ -10,6 +10,11 @@
       "DOM.Iterable"
     ],
     "isolatedModules": true,
-    "jsx": "react-jsx"
+    "jsx": "react-jsx",
+    "paths": {
+      "@/*": [
+        "./src/*"
+      ]
+    }
   }
 }
