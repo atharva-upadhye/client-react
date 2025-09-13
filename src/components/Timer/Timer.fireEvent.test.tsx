@@ -1,10 +1,13 @@
+/* eslint-disable no-magic-numbers */
+/* eslint-disable max-lines-per-function */
 import { act, fireEvent, render, screen } from "@testing-library/react";
-import { afterEach, beforeEach, describe, expect, test, vi } from "vitest";
+import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { Timer } from "./Timer";
 
-describe("Timer component", () => {
+describe("timer component", () => {
   beforeEach(() => {
-    vi.useFakeTimers(); // mock timers
+    // mock timers
+    vi.useFakeTimers();
   });
 
   afterEach(() => {
@@ -12,15 +15,16 @@ describe("Timer component", () => {
     vi.useRealTimers();
   });
 
-  test("renders initial state correctly", () => {
+  it("renders initial state correctly", () => {
     render(<Timer />);
+
     expect(screen.getByTestId("time")).toHaveTextContent("00:00:00.000");
     expect(screen.getByText("Start")).toBeInTheDocument();
     expect(screen.getByText("Pause")).toBeDisabled();
     expect(screen.getByText("Reset")).toBeDisabled();
   });
 
-  test("starts timer when Start is clicked", () => {
+  it("starts timer when Start is clicked", () => {
     render(<Timer />);
     fireEvent.click(screen.getByText("Start"));
     act(() => {
@@ -31,10 +35,12 @@ describe("Timer component", () => {
     expect(screen.getByText("Pause")).not.toBeDisabled();
     expect(screen.getByText("Reset")).toBeDisabled();
 
-    expect(screen.getByTestId("time").textContent).toMatch(/^00:00:01\.\d{3}$/);
+    expect(screen.getByTestId("time").textContent).toMatch(
+      /^00:00:01\.\d{3}$/u,
+    );
   });
 
-  test("pauses and resumes the timer correctly", () => {
+  it("pauses and resumes the timer correctly", () => {
     render(<Timer />);
     fireEvent.click(screen.getByText("Start"));
 
@@ -45,7 +51,8 @@ describe("Timer component", () => {
 
     const pausedTime = screen.getByTestId("time").textContent;
     act(() => {
-      vi.advanceTimersByTime(2000); // simulate wait while paused
+      // simulate wait while paused
+      vi.advanceTimersByTime(2000);
     });
 
     expect(screen.getByTestId("time").textContent).toBe(pausedTime);
@@ -58,7 +65,7 @@ describe("Timer component", () => {
     expect(screen.getByTestId("time").textContent).not.toBe(pausedTime);
   });
 
-  test("stops the timer and resets state when Stop is clicked", () => {
+  it("stops the timer and resets state when Stop is clicked", () => {
     render(<Timer />);
     fireEvent.click(screen.getByText("Start"));
     act(() => {
@@ -66,11 +73,14 @@ describe("Timer component", () => {
     });
 
     fireEvent.click(screen.getByText("Stop"));
+
     expect(screen.getByText("Start")).toBeInTheDocument();
-    expect(screen.getByTestId("time").textContent).toMatch(/^00:00:01\.\d{3}$/);
+    expect(screen.getByTestId("time").textContent).toMatch(
+      /^00:00:01\.\d{3}$/u,
+    );
   });
 
-  test("resets the timer correctly", () => {
+  it("resets the timer correctly", () => {
     render(<Timer />);
     fireEvent.click(screen.getByText("Start"));
     act(() => {

@@ -67,13 +67,17 @@ export default tseslint.config([
   {
     rules: {
       "capitalized-comments": "off",
+      "no-ternary": "off",
       "one-var": "off",
     },
   },
   reactRefresh.configs.vite,
   reactHooks.configs["recommended-latest"],
   {
-    files: ["**/__tests__/**/*.[jt]s?(x)", "**/?(*.)+(spec|test).[jt]s?(x)"],
+    files: [
+      "**/__tests__/**/*.[jt]s?(x)",
+      "src/**/?(*.)+(spec|test).[jt]s?(x)",
+    ],
     plugins: { vitest },
     rules: {
       ...vitest.configs.all.rules,
@@ -83,6 +87,14 @@ export default tseslint.config([
   tseslint.configs.stylistic,
   tseslint.configs.strictTypeChecked,
   tseslint.configs.stylisticTypeChecked,
+  {
+    files: ["**/*.js"],
+    rules: {
+      "@typescript-eslint/no-unnecessary-boolean-literal-compare": "off",
+      "@typescript-eslint/no-unnecessary-condition": "off",
+      "@typescript-eslint/prefer-nullish-coalescing": "off",
+    },
+  },
   {
     plugins: {
       prettier,

@@ -1,13 +1,17 @@
+/* eslint-disable max-statements */
+/* eslint-disable no-magic-numbers */
+/* eslint-disable max-lines-per-function */
 import { type MouseEventHandler, useEffect, useRef, useState } from "react";
 
-function formatTime(ms: number) {
+const formatTime = (ms: number) => {
   const hours = String(Math.floor(ms / 3600000)).padStart(2, "0");
   const minutes = String(Math.floor((ms % 3600000) / 60000)).padStart(2, "0");
   const seconds = String(Math.floor((ms % 60000) / 1000)).padStart(2, "0");
-  const milliseconds = String(ms % 1000).padStart(3, "0"); // 4 digits
+  // 4 digits
+  const milliseconds = String(ms % 1000).padStart(3, "0");
 
   return `${hours}:${minutes}:${seconds}.${milliseconds}`;
-}
+};
 
 export const Timer = () => {
   const [time, setTime] = useState<null | number>(null);
@@ -27,36 +31,39 @@ export const Timer = () => {
       // setTime(0);
     } else {
       startRef.current = new Date();
-      intervalRef.current = setInterval(
-        () =>
-          setTime(() => {
-            if (!startRef.current) throw Error("impossible");
-            return new Date().valueOf() - startRef.current.valueOf();
-          }),
-        1,
-      );
+      intervalRef.current = setInterval(() => {
+        setTime(() => {
+          if (!startRef.current) {
+            throw Error("impossible");
+          }
+          return new Date().valueOf() - startRef.current.valueOf();
+        });
+      }, 1);
       setIsRunning(true);
       setIsStarted(true);
     }
   };
   const handlePauseResume: MouseEventHandler<HTMLButtonElement> = () => {
     if (isRunning) {
-      if (intervalRef.current === null)
+      if (intervalRef.current === null) {
         throw Error("impossible condition reached 1");
+      }
       clearInterval(intervalRef.current);
       intervalRef.current = null;
       setIsRunning(false);
     } else {
-      if (intervalRef.current) throw Error("impossible condition reached 2");
-      startRef.current = new Date(new Date().valueOf() - (time || 0));
-      intervalRef.current = setInterval(
-        () =>
-          setTime(() => {
-            if (!startRef.current) throw Error("impossible");
-            return new Date().valueOf() - startRef.current.valueOf();
-          }),
-        1,
-      );
+      if (intervalRef.current) {
+        throw Error("impossible condition reached 2");
+      }
+      startRef.current = new Date(new Date().valueOf() - (time ?? 0));
+      intervalRef.current = setInterval(() => {
+        setTime(() => {
+          if (!startRef.current) {
+            throw Error("impossible");
+          }
+          return new Date().valueOf() - startRef.current.valueOf();
+        });
+      }, 1);
       setIsRunning(true);
     }
   };
@@ -65,11 +72,14 @@ export const Timer = () => {
     setIsRunning(false);
     setIsStarted(false);
   };
-  useEffect(() => {
-    return () => {
-      if (intervalRef.current) clearInterval(intervalRef.current);
-    };
-  }, []);
+  useEffect(
+    () => () => {
+      if (intervalRef.current) {
+        clearInterval(intervalRef.current);
+      }
+    },
+    [],
+  );
   return (
     <div
       data-testid="timer"
@@ -77,7 +87,7 @@ export const Timer = () => {
       className="flex flex-col gap-2 rounded-md border-2 bg-amber-200 p-2"
     >
       <h1 data-testid="time" className="text-2xl">
-        {formatTime(time || 0)}
+        {formatTime(time ?? 0)}
       </h1>
       <div className="flex justify-center gap-2">
         <button onClick={handleStartStop}>

@@ -1,3 +1,1 @@
-export const LazyComponent = () => {
-  return <>Lazy component</>;
-};
+export const LazyComponent = () => <>Lazy component</>;

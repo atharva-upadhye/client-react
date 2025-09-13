@@ -1,52 +1,60 @@
+/* eslint-disable max-statements */
+/* eslint-disable no-warning-comments */
+/* eslint-disable no-magic-numbers */
+/* eslint-disable max-lines-per-function */
 import { act, render, screen } from "@testing-library/react";
-import { afterEach, beforeEach, describe, expect, test, vi } from "vitest";
+import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { Timer } from "./Timer";
 import userEvent from "@testing-library/user-event";
 
-describe.skip("Timer component", () => {
+describe.skip("timer component", () => {
   beforeEach(() => {
-    vi.useFakeTimers(); // use virtual timer
+    // use virtual timer
+    vi.useFakeTimers();
   });
 
   afterEach(() => {
-    vi.runOnlyPendingTimers(); // TODO: is this required?
+    // TODO: is this required?
+    vi.runOnlyPendingTimers();
     vi.useRealTimers();
   });
 
-  test("renders initial state", () => {
+  it("renders initial state", () => {
     render(<Timer />);
+
     expect(screen.getByText("00:00:00.000")).toBeInTheDocument();
-    expect(screen.getByRole("button", { name: /start/i })).toBeEnabled();
-    expect(screen.getByRole("button", { name: /pause/i })).toBeDisabled();
-    expect(screen.getByRole("button", { name: /reset/i })).toBeDisabled();
+    expect(screen.getByRole("button", { name: /start/iu })).toBeEnabled();
+    expect(screen.getByRole("button", { name: /pause/iu })).toBeDisabled();
+    expect(screen.getByRole("button", { name: /reset/iu })).toBeDisabled();
   });
 
-  test("starts and stops the timer", async () => {
+  it("starts and stops the timer", async () => {
     render(<Timer />);
-    const startButton = screen.getByRole("button", { name: /start/i });
+    const startButton = screen.getByRole("button", { name: /start/iu });
 
     await userEvent.click(startButton);
 
-    expect(screen.getByRole("button", { name: /stop/i })).toBeInTheDocument();
-    expect(screen.getByRole("button", { name: /pause/i })).toBeEnabled();
-    expect(screen.getByRole("button", { name: /reset/i })).toBeEnabled();
+    expect(screen.getByRole("button", { name: /stop/iu })).toBeInTheDocument();
+    expect(screen.getByRole("button", { name: /pause/iu })).toBeEnabled();
+    expect(screen.getByRole("button", { name: /reset/iu })).toBeEnabled();
 
     act(() => {
       vi.advanceTimersByTime(1000);
     });
 
-    expect(screen.getByText(/00:00:01\.\d{3}/)).toBeInTheDocument();
+    expect(screen.getByText(/00:00:01\.\d{3}/u)).toBeInTheDocument();
 
-    await userEvent.click(screen.getByRole("button", { name: /stop/i }));
+    await userEvent.click(screen.getByRole("button", { name: /stop/iu }));
 
-    expect(screen.getByRole("button", { name: /start/i })).toBeInTheDocument();
+    expect(screen.getByRole("button", { name: /start/iu })).toBeInTheDocument();
   });
 
-  test("starts and stops the timer v2", async () => {
+  it("starts and stops the timer v2", async () => {
     render(<Timer />);
-    const user = userEvent.setup({ delay: null }); // Important: no delay!
+    // Important: no delay!
+    const user = userEvent.setup({ delay: null });
 
-    const startButton = screen.getByRole("button", { name: /start/i });
+    const startButton = screen.getByRole("button", { name: /start/iu });
 
     await user.click(startButton);
 
@@ -56,65 +64,72 @@ describe.skip("Timer component", () => {
     });
 
     const timeText = screen.getByRole("heading").textContent ?? "";
-    expect(timeText).toMatch(/00:00:01\.\d{3}/);
 
-    await user.click(screen.getByRole("button", { name: /stop/i }));
+    expect(timeText).toMatch(/00:00:01\.\d{3}/u);
 
-    expect(screen.getByRole("button", { name: /start/i })).toBeInTheDocument();
+    await user.click(screen.getByRole("button", { name: /stop/iu }));
+
+    expect(screen.getByRole("button", { name: /start/iu })).toBeInTheDocument();
   });
 
-  test("pauses and resumes the timer", async () => {
+  it("pauses and resumes the timer", async () => {
     render(<Timer />);
-    await userEvent.click(screen.getByRole("button", { name: /start/i }));
+    await userEvent.click(screen.getByRole("button", { name: /start/iu }));
 
     act(() => {
       vi.advanceTimersByTime(2000);
     });
 
-    await userEvent.click(screen.getByRole("button", { name: /pause/i }));
+    await userEvent.click(screen.getByRole("button", { name: /pause/iu }));
 
-    const pausedTime = screen.getByText(/00:00:02\.\d{3}/).textContent;
+    const pausedTime = screen.getByText(/00:00:02\.\d{3}/u).textContent;
+    // eslint-disable-next-line vitest/no-conditional-in-test
+    if (pausedTime === null) {
+      throw new Error("pausedTime === null");
+    }
 
     act(() => {
       vi.advanceTimersByTime(2000);
     });
 
     // Still the same, because it's paused
-    expect(screen.getByText(pausedTime!)).toBeInTheDocument();
+    expect(screen.getByText(pausedTime)).toBeInTheDocument();
 
-    await userEvent.click(screen.getByRole("button", { name: /resume/i }));
+    await userEvent.click(screen.getByRole("button", { name: /resume/iu }));
 
     act(() => {
       vi.advanceTimersByTime(1000);
     });
 
-    const resumedTime = screen.getByText(/00:00:03\.\d{3}/);
+    const resumedTime = screen.getByText(/00:00:03\.\d{3}/u);
+
     expect(resumedTime).toBeInTheDocument();
   });
 
-  test("resets the timer", async () => {
+  it("resets the timer", async () => {
     render(<Timer />);
-    await userEvent.click(screen.getByRole("button", { name: /start/i }));
+    await userEvent.click(screen.getByRole("button", { name: /start/iu }));
 
     act(() => {
       vi.advanceTimersByTime(1500);
     });
 
-    await userEvent.click(screen.getByRole("button", { name: /reset/i }));
+    await userEvent.click(screen.getByRole("button", { name: /reset/iu }));
 
     expect(screen.getByText("00:00:00.000")).toBeInTheDocument();
-    expect(screen.getByRole("button", { name: /start/i })).toBeInTheDocument();
+    expect(screen.getByRole("button", { name: /start/iu })).toBeInTheDocument();
   });
 
-  test("cleans up interval on unmount", async () => {
+  it("cleans up interval on unmount", async () => {
     const { unmount } = render(<Timer />);
     const clearIntervalSpy = vi.spyOn(globalThis, "clearInterval");
 
-    await userEvent.click(screen.getByRole("button", { name: /start/i }));
+    await userEvent.click(screen.getByRole("button", { name: /start/iu }));
 
     unmount();
 
-    expect(clearIntervalSpy).toHaveBeenCalled();
+    expect(clearIntervalSpy).toHaveBeenCalledWith();
+
     clearIntervalSpy.mockRestore();
   });
 });

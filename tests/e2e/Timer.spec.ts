@@ -1,8 +1,11 @@
+/* eslint-disable max-statements */
+/* eslint-disable max-lines-per-function */
+/* eslint-disable no-magic-numbers */
 import { expect, test } from "@playwright/test";
 
 test.describe("Timer Component", () => {
   test.beforeEach(async ({ page }) => {
-    await page.goto("http://localhost:3000"); // Change if needed
+    await page.goto("http://localhost:3000");
     await expect(page.getByTestId("timer")).toBeVisible();
   });
 
